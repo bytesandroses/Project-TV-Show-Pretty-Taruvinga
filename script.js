@@ -4,27 +4,6 @@ function formatEpisodeCode(season, number) {
   return `S${s}E${n}`;
 }
 
-function createEpisodeCard(episode) {
-  let cardDiv = document.createElement("div");
-  cardDiv.className = "episode-card";
-
-  let title = document.createElement("h3");
-  let episodeCode = formatEpisodeCode(episode.season, episode.number);
-  title.innerText = episode.name + " - " + episodeCode;
-
-  let image = document.createElement("img");
-  image.src = episode.image.medium;
-
-  let summary = document.createElement("div");
-  summary.innerHTML = episode.summary;
-
-  cardDiv.appendChild(title);
-  cardDiv.appendChild(image);
-  cardDiv.appendChild(summary);
-
-  return cardDiv;
-}
-
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
