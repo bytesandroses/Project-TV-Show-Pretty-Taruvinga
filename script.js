@@ -1,6 +1,13 @@
+// If an error occurred loading the data, notify the user.
+
 function showLoadingMessage() {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "<p>Loading episodes...</p>";
+}
+
+function showErrorMessage(message) {
+  const rootElem = document.getElementById("root");
+  rootElem.innerHTML = `<p style="color: red; text-align: center;">${message}</p>`;
 }
 
 function formatEpisodeTitle(name, season, number) {
@@ -94,15 +101,15 @@ function setupEpisodeSelect(allEpisodes) {
 
 async function fetchEpisodes() {
   try {
-    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodess");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const episodes = await response.json();
     return episodes;
   } catch (error) {
-    console.error("Failed to fetch episodes:", error);
-    return [];
+    showErrorMessage("Failed to load episodes. Please try again later.");
+    return;
   }
 }
 
