@@ -101,7 +101,7 @@ function setupEpisodeSelect(allEpisodes) {
 
 async function fetchEpisodes() {
   try {
-    const response = await fetch("https://api.tvmaze.com/shows/82/episodess");
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
