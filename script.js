@@ -1,7 +1,7 @@
-function formatEpisodeCode(season, number) {
+function formatEpisodeTitle(name, season, number) {
   const s = String(season).padStart(2, "0");
   const n = String(number).padStart(2, "0");
-  return `S${s}E${n}`;
+  return `${name} - S${s}E${n}`;
 }
 
 function createEpisodeCard(episode) {
@@ -9,8 +9,11 @@ function createEpisodeCard(episode) {
   cardDiv.className = "episode-card";
 
   let title = document.createElement("h3");
-  let episodeCode = formatEpisodeCode(episode.season, episode.number);
-  title.innerText = episode.name + " - " + episodeCode;
+  title.innerText = formatEpisodeTitle(
+    episode.name,
+    episode.season,
+    episode.number,
+  );
 
   let image = document.createElement("img");
   if (episode.image && episode.image.medium) {
@@ -22,10 +25,7 @@ function createEpisodeCard(episode) {
   let summary = document.createElement("div");
   summary.innerHTML = episode.summary || "<p>No summary available.</p>";
 
-  cardDiv.appendChild(title);
-  cardDiv.appendChild(image);
-  cardDiv.appendChild(summary);
-
+  cardDiv.append(title, image, summary);
   return cardDiv;
 }
 
@@ -60,10 +60,13 @@ function setupEpisodeSelect(allEpisodes) {
 
   allEpisodes.forEach((episode) => {
     const option = document.createElement("option");
-    option.value = episode.id; // We use the episode's unique ID as the value
+    option.value = episode.id;
 
-    const episodeCode = formatEpisodeCode(episode.season, episode.number);
-    option.innerText = `${episodeCode} - ${episode.name}`;
+    option.innerText = formatEpisodeTitle(
+      episode.name,
+      episode.season,
+      episode.number,
+    );
 
     episodeSelect.appendChild(option);
   });
