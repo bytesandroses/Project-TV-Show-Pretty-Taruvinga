@@ -3,26 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Pretty’s Tv Project ✨</title>
+
     <link href="style.css" rel="stylesheet" />
+
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
     <header class="app-header">
       <h1>Pretty’s Tv Project ✨</h1>
+
       <p class="subtitle">Find your favourite episodes</p>
+
+      <div class="controls">
+        <select id="showSelect">
+          <option value="">Select a show</option>
+        </select>
+
+        <select id="episodeSelect">
+          <option value="">All Episodes</option>
+        </select>
+      </div>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search for shows or episodes..."
+      />
     </header>
-    <select id="episodeSelector">
-      <option value="">All Episodes</option>
-    </select>
 
     <div id="root"></div>
 
     <footer>
       Data originally from
-      <a href="https://tvmaze.com/" target="_blank">TVMaze.com</a>
+
+      <a href="https://tvmaze.com/" target="_blank"> TVMaze.com </a>
     </footer>
+
     <script src="script.js"></script>
   </body>
 </html>
