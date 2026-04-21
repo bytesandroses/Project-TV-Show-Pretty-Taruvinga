@@ -13,10 +13,14 @@ function createEpisodeCard(episode) {
   title.innerText = episode.name + " - " + episodeCode;
 
   let image = document.createElement("img");
-  image.src = episode.image.medium;
+  if (episode.image && episode.image.medium) {
+    image.src = episode.image.medium;
+  } else {
+    image.src = "https://via.placeholder.com/250x140?text=No+Image";
+  }
 
   let summary = document.createElement("div");
-  summary.innerHTML = episode.summary;
+  summary.innerHTML = episode.summary || "<p>No summary available.</p>";
 
   cardDiv.appendChild(title);
   cardDiv.appendChild(image);
@@ -80,8 +84,22 @@ function setupEpisodeSelect(allEpisodes) {
   });
 }
 
-function setup() {
-  const allEpisodes = getAllEpisodes();
+async function fetchEpisodes() {
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const episodes = await response.json();
+    return episodes;
+  } catch (error) {
+    console.error("Failed to fetch episodes:", error);
+    return [];
+  }
+}
+
+async function setup() {
+  const allEpisodes = await fetchEpisodes();
 
   const searchInput = document.getElementById("searchInput");
 
@@ -89,21 +107,21 @@ function setup() {
     const searchText = e.target.value.toLowerCase();
 
     const filteredEpisodes = allEpisodes.filter((episode) => {
-      return (
-        episode.name.toLowerCase().includes(searchText) ||
-        episode.summary.toLowerCase().includes(searchText)
-      );
+      const name = episode.name ? episode.name.toLowerCase() : "";
+      const summary = episode.summary ? episode.summary.toLowerCase() : "";
+
+      return name.includes(searchText) || summary.includes(searchText);
     });
 
     makePageForEpisodes(filteredEpisodes);
 
+    const episodeSelect = document.getElementById("episodeSelect");
     if (episodeSelect) {
       episodeSelect.value = "all";
     }
   });
 
   setupEpisodeSelect(allEpisodes);
-
   makePageForEpisodes(allEpisodes);
 }
 
